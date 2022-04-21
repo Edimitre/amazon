@@ -2,6 +2,8 @@ package it.socepi.integration.marketplace.amazon.controller;
 
 
 import it.socepi.integration.marketplace.amazon.model.Order;
+import it.socepi.integration.marketplace.amazon.model.ProcessOrderBody;
+import it.socepi.integration.marketplace.amazon.model.State;
 import it.socepi.integration.marketplace.amazon.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +27,7 @@ public class OrderController {
 
 
     @PostMapping("/save")
-    private Order saveOrder(@RequestBody Order order){
+    public Order saveOrder(@RequestBody Order order){
         return orderService.insertOrder(order);
 
     }
@@ -78,5 +80,25 @@ public class OrderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/processOrders")
+    public List<Order> processOrders(@RequestBody ProcessOrderBody processOrderBody){
+
+        for (Long id: processOrderBody.getIds()){
+            Order order = orderService.getOrderById(id);
+            order.setState(State.PROCESSED);
+            orderService.insertOrder(order);
+            System.out.println(id);
+        }
+
+        return orderService.getAllOrders();
+    }
+
+    @RequestMapping("/search")
+    public List<Order> showSearchedOrders(@RequestParam(value = "keyword") String keyword){
+
+
+
+        return orderService.getByKeyWord(keyword);
+    }
 
 }

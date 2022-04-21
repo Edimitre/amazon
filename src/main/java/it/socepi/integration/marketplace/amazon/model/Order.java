@@ -43,6 +43,8 @@ public class Order implements Serializable {
 
     private BigDecimal totale;
 
+    private String notes;
+
     @Enumerated(EnumType.STRING)
     private State state;
 
@@ -51,8 +53,7 @@ public class Order implements Serializable {
     private Article article;
 
 
-
-    public Order(String denominazione, String via, String cap, String citta, String provincia, String telefono, String codice, Date data, BigDecimal iva, BigDecimal subTotale, BigDecimal totale, State state, Article article) {
+    public Order(String denominazione, String via, String cap, String citta, String provincia, String telefono, String codice, Date data, BigDecimal iva, BigDecimal subTotale, BigDecimal totale, String notes, State state, Article article) {
         this.denominazione = denominazione;
         this.via = via;
         this.cap = cap;
@@ -64,10 +65,10 @@ public class Order implements Serializable {
         this.iva = iva;
         this.subTotale = subTotale;
         this.totale = totale;
+        this.notes = notes;
         this.state = state;
         this.article = article;
     }
-
 
     public Long getId() {
         return id;
@@ -181,6 +182,14 @@ public class Order implements Serializable {
         this.article = article;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -196,10 +205,13 @@ public class Order implements Serializable {
                 ", iva=" + iva +
                 ", subTotale=" + subTotale +
                 ", totale=" + totale +
+                ", notes='" + notes + '\'' +
                 ", state=" + state +
                 ", article=" + article +
                 '}';
     }
+
+
 
     public Order() {
     }

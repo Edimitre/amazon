@@ -75,5 +75,9 @@ public class OrderService {
     }
 
 
+    public List<Order> getByKeyWord(String keyword){
+        return orderRepository.getByKeyWord(keyword);
+    }
+
 
 }

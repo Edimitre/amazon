@@ -38,7 +38,7 @@ class AmazonApplicationTests {
 		Article article = new Article(1,"12","4323","uno articolo","black ",new BigDecimal(3),new BigDecimal(3));
 
 
-		Order order = new Order("Qualcosa Sia","via Stelvio","1 cap","milano ","provincia ","123456789","324323",new Date(),new BigDecimal(2),new BigDecimal(2),new BigDecimal(2), State.PENDING,article);
+		Order order = new Order("Qualcosa Sia","via Stelvio","1 cap","milano ","provincia ","123456789","324323",new Date(),new BigDecimal(2),new BigDecimal(2),new BigDecimal(2), "note test",State.PENDING,article);
 
 
 		Assertions.assertThat(orderRepository.save(order)).isInstanceOf(Order.class);
@@ -107,6 +107,15 @@ class AmazonApplicationTests {
 	public void getByCityName(){
 
 		List<Order> orderList = orderRepository.findByCity("mil");
+
+		Assertions.assertThat(orderList.isEmpty()).isFalse();
+
+	}
+
+	@Test
+	public void getByAny(){
+
+		List<Order> orderList = orderRepository.getByKeyWord("mil");
 
 		Assertions.assertThat(orderList.isEmpty()).isFalse();
 
