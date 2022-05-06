@@ -1,6 +1,8 @@
 package it.socepi.integration.marketplace.amazon.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,8 +28,13 @@ public class Article implements Serializable {
 
     private BigDecimal iva ;
 
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name="order_id")
+    @JsonIgnore
+    private Order order;
 
-    public Article(Integer quantita, String partNumber, String codiceVarianteArticolo, String nomeArticolo, String nomeVarianteArticolo, BigDecimal prezzoUnitario, BigDecimal iva) {
+
+    public Article(Integer quantita, String partNumber, String codiceVarianteArticolo, String nomeArticolo, String nomeVarianteArticolo, BigDecimal prezzoUnitario, BigDecimal iva, Order order) {
         this.quantita = quantita;
         this.partNumber = partNumber;
         this.codiceVarianteArticolo = codiceVarianteArticolo;
@@ -35,21 +42,82 @@ public class Article implements Serializable {
         this.nomeVarianteArticolo = nomeVarianteArticolo;
         this.prezzoUnitario = prezzoUnitario;
         this.iva = iva;
+        this.order = order;
     }
 
-    @Override
-    public String toString() {
-        return "Article{" +
-                "id=" + id +
-                ", quantita=" + quantita +
-                ", partNumber='" + partNumber + '\'' +
-                ", codiceVarianteArticolo='" + codiceVarianteArticolo + '\'' +
-                ", nomeArticolo='" + nomeArticolo + '\'' +
-                ", nomeVarianteArticolo='" + nomeVarianteArticolo + '\'' +
-                ", prezzoUnitario=" + prezzoUnitario +
-                ", iva=" + iva +
-                '}';
+    public Long getId() {
+        return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getQuantita() {
+        return quantita;
+    }
+
+    public void setQuantita(Integer quantita) {
+        this.quantita = quantita;
+    }
+
+    public String getPartNumber() {
+        return partNumber;
+    }
+
+    public void setPartNumber(String partNumber) {
+        this.partNumber = partNumber;
+    }
+
+    public String getCodiceVarianteArticolo() {
+        return codiceVarianteArticolo;
+    }
+
+    public void setCodiceVarianteArticolo(String codiceVarianteArticolo) {
+        this.codiceVarianteArticolo = codiceVarianteArticolo;
+    }
+
+    public String getNomeArticolo() {
+        return nomeArticolo;
+    }
+
+    public void setNomeArticolo(String nomeArticolo) {
+        this.nomeArticolo = nomeArticolo;
+    }
+
+    public String getNomeVarianteArticolo() {
+        return nomeVarianteArticolo;
+    }
+
+    public void setNomeVarianteArticolo(String nomeVarianteArticolo) {
+        this.nomeVarianteArticolo = nomeVarianteArticolo;
+    }
+
+    public BigDecimal getPrezzoUnitario() {
+        return prezzoUnitario;
+    }
+
+    public void setPrezzoUnitario(BigDecimal prezzoUnitario) {
+        this.prezzoUnitario = prezzoUnitario;
+    }
+
+    public BigDecimal getIva() {
+        return iva;
+    }
+
+    public void setIva(BigDecimal iva) {
+        this.iva = iva;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+
 
     public Article() {
     }

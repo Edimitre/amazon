@@ -2,13 +2,12 @@ package it.socepi.integration.marketplace.amazon.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -27,7 +26,6 @@ public class Order implements Serializable {
     private String cap;
 
     private String citta;
-
     private String provincia ;
 
     private String telefono;
@@ -48,12 +46,18 @@ public class Order implements Serializable {
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "article_id", referencedColumnName = "id")
-    private Article article;
+    @OneToMany(mappedBy="order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Article> articleList;
 
 
-    public Order(String denominazione, String via, String cap, String citta, String provincia, String telefono, String codice, Date data, BigDecimal iva, BigDecimal subTotale, BigDecimal totale, String notes, State state, Article article) {
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "market_place_id")
+    private MarketPlace marketPlace;
+
+    public Order() {
+    }
+
+    public Order(String denominazione, String via, String cap, String citta, String provincia, String telefono, String codice, Date data, BigDecimal iva, BigDecimal subTotale, BigDecimal totale, String notes, State state, List<Article> articleList, MarketPlace marketPlace) {
         this.denominazione = denominazione;
         this.via = via;
         this.cap = cap;
@@ -67,7 +71,8 @@ public class Order implements Serializable {
         this.totale = totale;
         this.notes = notes;
         this.state = state;
-        this.article = article;
+        this.articleList = articleList;
+        this.marketPlace = marketPlace;
     }
 
     public Long getId() {
@@ -166,22 +171,6 @@ public class Order implements Serializable {
         this.totale = totale;
     }
 
-    public State getState() {
-        return state;
-    }
-
-    public void setState(State state) {
-        this.state = state;
-    }
-
-    public Article getArticle() {
-        return article;
-    }
-
-    public void setArticle(Article article) {
-        this.article = article;
-    }
-
     public String getNotes() {
         return notes;
     }
@@ -190,29 +179,27 @@ public class Order implements Serializable {
         this.notes = notes;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", denominazione='" + denominazione + '\'' +
-                ", via='" + via + '\'' +
-                ", cap='" + cap + '\'' +
-                ", citta='" + citta + '\'' +
-                ", provincia='" + provincia + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", codice='" + codice + '\'' +
-                ", data=" + data +
-                ", iva=" + iva +
-                ", subTotale=" + subTotale +
-                ", totale=" + totale +
-                ", notes='" + notes + '\'' +
-                ", state=" + state +
-                ", article=" + article +
-                '}';
+    public State getState() {
+        return state;
     }
 
+    public void setState(State state) {
+        this.state = state;
+    }
 
+    public List<Article> getArticleList() {
+        return articleList;
+    }
 
-    public Order() {
+    public void setArticleList(List<Article> articleList) {
+        this.articleList = articleList;
+    }
+
+    public MarketPlace getMarketPlace() {
+        return marketPlace;
+    }
+
+    public void setMarketPlace(MarketPlace marketPlace) {
+        this.marketPlace = marketPlace;
     }
 }

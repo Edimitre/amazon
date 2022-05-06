@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
@@ -28,12 +29,18 @@ public class OrderController {
 
     @PostMapping("/save")
     public Order saveOrder(@RequestBody Order order){
+
+
+
+
+
         return orderService.insertOrder(order);
 
     }
 
 
     @GetMapping("/all")
+    @Transactional
     private List<Order> getAllOrders(){
 
         return orderService.getAllOrders();

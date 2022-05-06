@@ -1,8 +1,6 @@
 package it.socepi.integration.marketplace.amazon;
 
-import it.socepi.integration.marketplace.amazon.model.Article;
-import it.socepi.integration.marketplace.amazon.model.Order;
-import it.socepi.integration.marketplace.amazon.model.State;
+import it.socepi.integration.marketplace.amazon.model.*;
 import it.socepi.integration.marketplace.amazon.repository.ArticleRepository;
 import it.socepi.integration.marketplace.amazon.repository.OrderRepository;
 import it.socepi.integration.marketplace.amazon.service.OrderService;
@@ -14,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.annotation.Rollback;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -33,12 +32,37 @@ class AmazonApplicationTests {
 	@Test
 	public void testCreateOrder(){
 
+		List<Order> orderList = new ArrayList<>();
 
 
-		Article article = new Article(1,"12","4323","uno articolo","black ",new BigDecimal(3),new BigDecimal(3));
+
+		MarketPlace marketPlace = new MarketPlace("italiaMarketPlace", new Nationality("Italia"));
+
+		Article article = new Article(1,"12","4323","uno articolo","black ",new BigDecimal(3),new BigDecimal(3),new Order());
+
+		List<Article> articleList = new ArrayList<>();
+		articleList.add(article);
 
 
-		Order order = new Order("Qualcosa Sia","via Stelvio","1 cap","milano ","provincia ","123456789","324323",new Date(),new BigDecimal(2),new BigDecimal(2),new BigDecimal(2), "note test",State.PENDING,article);
+		Order order = new Order();
+
+		order.setDenominazione("denominazione");
+		order.setVia("Via Dagosto");
+		order.setCap("cap");
+		order.setProvincia("Bari");
+		order.setTelefono("08989897");
+		order.setCodice("8767");
+		order.setIva(new BigDecimal(7));
+		order.setData(new Date());
+		order.setTotale(new BigDecimal(50));
+		order.setSubTotale(new BigDecimal(8));
+		order.setNotes("orderNotes");
+		order.setArticleList(articleList);
+		order.setMarketPlace(marketPlace);
+
+
+
+
 
 
 		Assertions.assertThat(orderRepository.save(order)).isInstanceOf(Order.class);
@@ -103,14 +127,7 @@ class AmazonApplicationTests {
 
 	}
 
-	@Test
-	public void getByCityName(){
 
-		List<Order> orderList = orderRepository.findByCity("mil");
-
-		Assertions.assertThat(orderList.isEmpty()).isFalse();
-
-	}
 
 	@Test
 	public void getByAny(){
