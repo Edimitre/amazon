@@ -14,6 +14,8 @@ public class Article implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String Sku;
+
     private Integer quantita;
 
     private String partNumber;
@@ -26,6 +28,8 @@ public class Article implements Serializable {
 
     private BigDecimal prezzoUnitario;
 
+    private BigDecimal prezzoTotale;
+
     private BigDecimal iva ;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
@@ -33,14 +37,18 @@ public class Article implements Serializable {
     @JsonIgnore
     private Order order;
 
+    public Article() {
+    }
 
-    public Article(Integer quantita, String partNumber, String codiceVarianteArticolo, String nomeArticolo, String nomeVarianteArticolo, BigDecimal prezzoUnitario, BigDecimal iva, Order order) {
+    public Article(String sku, Integer quantita, String partNumber, String codiceVarianteArticolo, String nomeArticolo, String nomeVarianteArticolo, BigDecimal prezzoUnitario, BigDecimal prezzoTotale, BigDecimal iva, Order order) {
+        Sku = sku;
         this.quantita = quantita;
         this.partNumber = partNumber;
         this.codiceVarianteArticolo = codiceVarianteArticolo;
         this.nomeArticolo = nomeArticolo;
         this.nomeVarianteArticolo = nomeVarianteArticolo;
         this.prezzoUnitario = prezzoUnitario;
+        this.prezzoTotale = prezzoTotale;
         this.iva = iva;
         this.order = order;
     }
@@ -51,6 +59,14 @@ public class Article implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSku() {
+        return Sku;
+    }
+
+    public void setSku(String sku) {
+        Sku = sku;
     }
 
     public Integer getQuantita() {
@@ -101,6 +117,14 @@ public class Article implements Serializable {
         this.prezzoUnitario = prezzoUnitario;
     }
 
+    public BigDecimal getPrezzoTotale() {
+        return prezzoTotale;
+    }
+
+    public void setPrezzoTotale(BigDecimal prezzoTotale) {
+        this.prezzoTotale = prezzoTotale;
+    }
+
     public BigDecimal getIva() {
         return iva;
     }
@@ -117,8 +141,20 @@ public class Article implements Serializable {
         this.order = order;
     }
 
-
-
-    public Article() {
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", Sku='" + Sku + '\'' +
+                ", quantita=" + quantita +
+                ", partNumber='" + partNumber + '\'' +
+                ", codiceVarianteArticolo='" + codiceVarianteArticolo + '\'' +
+                ", nomeArticolo='" + nomeArticolo + '\'' +
+                ", nomeVarianteArticolo='" + nomeVarianteArticolo + '\'' +
+                ", prezzoUnitario=" + prezzoUnitario +
+                ", prezzoTotale=" + prezzoTotale +
+                ", iva=" + iva +
+                ", order=" + order +
+                '}';
     }
 }

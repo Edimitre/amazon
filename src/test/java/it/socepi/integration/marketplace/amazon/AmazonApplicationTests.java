@@ -2,6 +2,7 @@ package it.socepi.integration.marketplace.amazon;
 
 import it.socepi.integration.marketplace.amazon.model.*;
 import it.socepi.integration.marketplace.amazon.repository.ArticleRepository;
+import it.socepi.integration.marketplace.amazon.repository.NationalityRepository;
 import it.socepi.integration.marketplace.amazon.repository.OrderRepository;
 import it.socepi.integration.marketplace.amazon.service.OrderService;
 import org.assertj.core.api.Assertions;
@@ -29,6 +30,8 @@ class AmazonApplicationTests {
 	@Autowired
 	private ArticleRepository articleRepository;
 
+	@Autowired
+	private NationalityRepository nationalityRepository;
 	@Test
 	public void testCreateOrder(){
 
@@ -38,7 +41,7 @@ class AmazonApplicationTests {
 
 		MarketPlace marketPlace = new MarketPlace("italiaMarketPlace", new Nationality("Italia"));
 
-		Article article = new Article(1,"12","4323","uno articolo","black ",new BigDecimal(3),new BigDecimal(3),new Order());
+		Article article = new Article("SKU",1,"12","4323","uno articolo","black ",new BigDecimal(4),new BigDecimal(3),new BigDecimal(3),new Order());
 
 		List<Article> articleList = new ArrayList<>();
 		articleList.add(article);
@@ -67,6 +70,13 @@ class AmazonApplicationTests {
 
 		Assertions.assertThat(orderRepository.save(order)).isInstanceOf(Order.class);
 
+	}
+
+	@Test
+	public void testGetNationality(){
+
+
+		Assertions.assertThat(nationalityRepository.getByName("Italy").get()).isInstanceOf(Nationality.class);
 	}
 
 	@Test

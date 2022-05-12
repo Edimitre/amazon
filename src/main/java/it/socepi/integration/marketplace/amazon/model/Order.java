@@ -1,8 +1,6 @@
 package it.socepi.integration.marketplace.amazon.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -25,7 +23,9 @@ public class Order implements Serializable {
 
     private String cap;
 
+    private String userName;
     private String citta;
+
     private String provincia ;
 
     private String telefono;
@@ -50,17 +50,18 @@ public class Order implements Serializable {
     private List<Article> articleList;
 
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "market_place_id")
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "market_place_id", referencedColumnName = "id")
     private MarketPlace marketPlace;
 
     public Order() {
     }
 
-    public Order(String denominazione, String via, String cap, String citta, String provincia, String telefono, String codice, Date data, BigDecimal iva, BigDecimal subTotale, BigDecimal totale, String notes, State state, List<Article> articleList, MarketPlace marketPlace) {
+    public Order(String denominazione, String via, String cap, String userName, String citta, String provincia, String telefono, String codice, Date data, BigDecimal iva, BigDecimal subTotale, BigDecimal totale, String notes, State state, List<Article> articleList, MarketPlace marketPlace) {
         this.denominazione = denominazione;
         this.via = via;
         this.cap = cap;
+        this.userName = userName;
         this.citta = citta;
         this.provincia = provincia;
         this.telefono = telefono;
@@ -105,6 +106,14 @@ public class Order implements Serializable {
 
     public void setCap(String cap) {
         this.cap = cap;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getCitta() {
@@ -201,5 +210,28 @@ public class Order implements Serializable {
 
     public void setMarketPlace(MarketPlace marketPlace) {
         this.marketPlace = marketPlace;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", denominazione='" + denominazione + '\'' +
+                ", via='" + via + '\'' +
+                ", cap='" + cap + '\'' +
+                ", userName='" + userName + '\'' +
+                ", citta='" + citta + '\'' +
+                ", provincia='" + provincia + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", codice='" + codice + '\'' +
+                ", data=" + data +
+                ", iva=" + iva +
+                ", subTotale=" + subTotale +
+                ", totale=" + totale +
+                ", notes='" + notes + '\'' +
+                ", state=" + state +
+                ", articleList=" + articleList +
+                ", marketPlace=" + marketPlace +
+                '}';
     }
 }
